@@ -1,3 +1,4 @@
+import Experience from "@/components/Experience";
 import Grid from "@/components/Grid";
 import Hero from "@/components/Hero";
 import RecentProjects from "@/components/RecentProjects";
@@ -8,12 +9,13 @@ import { FaHome } from "react-icons/fa";
 
 export default function Home() {
   return (
-    <main className="relative bg-black text-emerald-400">
+    <main className="relative bg-black text-white">
       <div>
         <FloatingNav navItems={navItems} />
         <Hero />
         <Grid />
         <RecentProjects />
+        <Experience />
       </div>
     </main>
   );
