@@ -8,7 +8,7 @@ import { FaHome } from "react-icons/fa";
 
 export default function Home() {
   return (
-    <main className="relative bg-black text-amber-50">
+    <main className="relative bg-black text-emerald-400">
       <div>
         <FloatingNav navItems={navItems} />
         <Hero />
