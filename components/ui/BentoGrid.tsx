@@ -1,12 +1,16 @@
 "use client";
-import { cn } from "@/lib/utils";
-import Lottie from "react-lottie";
-import MagicButton from "./MagicButton";
+import { useState } from "react";
 import { IoCopyOutline } from "react-icons/io5";
+
+// Also install this npm i --save-dev @types/react-lottie
+import Lottie from "react-lottie";
+
+import { cn } from "@/lib/utils";
+
 import { BackgroundGradientAnimation } from "./GradientBg";
 import GridGlobe from "./GridGlobe";
-import { useState } from "react";
 import animationData from "@/data/confetti.json";
+import MagicButton from "../MagicButton";
 
 export const BentoGrid = ({
   className,
@@ -18,6 +22,7 @@ export const BentoGrid = ({
   return (
     <div
       className={cn(
+        // change gap-4 to gap-8, change grid-cols-3 to grid-cols-5, remove md:auto-rows-[18rem], add responsive code
         "grid grid-cols-1 md:grid-cols-6 lg:grid-cols-5 md:grid-row-7 gap-4 lg:gap-8 mx-auto",
         className
       )}
@@ -29,25 +34,26 @@ export const BentoGrid = ({
 
 export const BentoGridItem = ({
   className,
+  id,
   title,
   description,
-  id,
+  //   remove unecessary things here
   img,
   imgClassName,
   titleClassName,
   spareImg,
 }: {
   className?: string;
+  id: number;
   title?: string | React.ReactNode;
   description?: string | React.ReactNode;
-  id?: number;
   img?: string;
   imgClassName?: string;
   titleClassName?: string;
   spareImg?: string;
 }) => {
-  const leftLists = ["ReactJS", "Angular", "Typescript"];
-  const rightLists = ["NodeJs", "NextJS", "MongoDB"];
+  const leftLists = ["ReactJS", "Angular", "NodeJs"];
+  const rightLists = ["Typescript", "MongoDB", "Express"];
 
   const [copied, setCopied] = useState(false);
 
@@ -61,7 +67,7 @@ export const BentoGridItem = ({
   };
 
   const handleCopy = () => {
-    const text = "yagitgadhok05@gmail.com";
+    const text = "hsu@jsmastery.pro";
     navigator.clipboard.writeText(text);
     setCopied(true);
   };
@@ -109,14 +115,14 @@ export const BentoGridItem = ({
         {id === 6 && (
           // add background animation , remove the p tag
           <BackgroundGradientAnimation>
-            {/* <div className="absolute z-50 inset-0 flex items-center justify-center text-white font-bold px-4 pointer-events-none text-3xl text-center md:text-4xl lg:text-7xl"></div> */}
+            <div className="absolute z-50 inset-0 flex items-center justify-center text-white font-bold px-4 pointer-events-none text-3xl text-center md:text-4xl lg:text-7xl"></div>
           </BackgroundGradientAnimation>
         )}
 
         <div
           className={cn(
             titleClassName,
-            "group-hover/bento:translate-x-4 transition duration-200 relative md:h-full min-h-40 flex flex-col px-5 p-5 lg:p-10"
+            "group-hover/bento:translate-x-2 transition duration-200 relative md:h-full min-h-40 flex flex-col px-5 p-5 lg:p-10"
           )}
         >
           {/* change the order of the title and des, font-extralight, remove text-xs text-neutral-600 dark:text-neutral-300 , change the text-color */}
@@ -138,7 +144,7 @@ export const BentoGridItem = ({
           {id === 3 && (
             <div className="flex gap-1 lg:gap-5 w-fit absolute -right-3 lg:-right-2">
               {/* tech stack lists */}
-              <div className="flex flex-col gap-3 py-3 md:gap-3 lg:gap-8">
+              <div className="flex flex-col gap-3 md:gap-3 lg:gap-8">
                 {leftLists.map((item, i) => (
                   <span
                     key={i}
@@ -150,7 +156,7 @@ export const BentoGridItem = ({
                 ))}
                 <span className="lg:py-4 lg:px-3 py-4 px-3  rounded-lg text-center bg-[#10132E]"></span>
               </div>
-              <div className="flex flex-col gap-3 md:gap-3 px-5 py-2 lg:gap-8">
+              <div className="flex flex-col gap-3 md:gap-3 lg:gap-8">
                 <span className="lg:py-4 lg:px-3 py-4 px-3  rounded-lg text-center bg-[#10132E]"></span>
                 {rightLists.map((item, i) => (
                   <span

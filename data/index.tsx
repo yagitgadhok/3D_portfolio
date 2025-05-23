@@ -3,7 +3,6 @@ export const navItems = [
   { name: "About", link: "#about" },
   { name: "Projects", link: "#projects" },
   { name: "Contact", link: "#contact" },
-  { name: "Resume", link: "./public/Yagit_Gadhok_Resume.pdf" },
 ];
 
 export const gridItems = [
@@ -73,35 +72,53 @@ export const gridItems = [
 export const projects = [
   {
     id: 1,
-    title: "3D Solar System Planets to Explore",
-    des: "Explore the wonders of our solar system with this captivating 3D simulation of the planets using Three.js.",
-    img: "/p1.svg",
-    iconLists: ["/re.svg", "/tail.svg", "/ts.svg", "/three.svg", "/fm.svg"],
-    link: "/ui.earth.com",
+    title: "URL Shortner",
+    des: "Built a URL shortening platform using MongoDB, Express.js, React.js, and Node.js, featuring custom short links, analytics tracking, and secure redirections. 🔗",
+    img: "/url-shortener.png",
+    iconLists: [
+      "/re.svg",
+      "/tail.svg",
+      "/ts.svg",
+      "/mongodb.png",
+      "/nodejs-3.svg",
+    ],
+    link: "https://url-shortener-frontend-7k6s.onrender.com/",
   },
   {
     id: 2,
-    title: "Yoom - Video Conferencing App",
-    des: "Simplify your video conferencing experience with Yoom. Seamlessly connect with colleagues and friends.",
-    img: "/p2.svg",
-    iconLists: ["/next.svg", "/tail.svg", "/ts.svg", "/stream.svg", "/c.svg"],
-    link: "/ui.yoom.com",
+    title: "File Drive",
+    des: "Developed a cloud-based file storage system using Next.js, Node.js, and Convex, enabling secure file uploads, real-time access, and efficient storage management. 📂",
+    img: "/file-drive.png",
+    iconLists: ["/next.svg", "/tail.svg", "/ts.svg", "/nodejs-3.svg", "/c.svg"],
+    link: "https://github.com/yagitgadhok/file-drive?tab=readme-ov-file",
   },
   {
     id: 3,
-    title: "AI Image SaaS - Canva Application",
-    des: "A REAL Software-as-a-Service app with AI features and a payments and credits system using the latest tech stack.",
-    img: "/p3.svg",
-    iconLists: ["/re.svg", "/tail.svg", "/ts.svg", "/three.svg", "/c.svg"],
-    link: "/ui.aiimg.com",
+    title: "Ecommerce",
+    des: "Built a full-stack e-commerce platform with secure authentication and optimized performance using MongoDB, Express.js, React.js, and Node.js. Deployed on Render with CI/CD pipelines. 🛒",
+    img: "/ss1.png",
+    iconLists: [
+      "/re.svg",
+      "/tail.svg",
+      "/ts.svg",
+      "/mongodb.png",
+      "/expressjs-ar21~bgwhite.svg",
+    ],
+    link: "https://github.com/yagitgadhok/ecommerce",
   },
   {
     id: 4,
-    title: "Animated Apple Iphone 3D Website",
-    des: "Recreated the Apple iPhone 15 Pro website, combining GSAP animations and Three.js 3D effects..",
-    img: "/p4.svg",
-    iconLists: ["/next.svg", "/tail.svg", "/ts.svg", "/three.svg", "/gsap.svg"],
-    link: "/ui.apple.com",
+    title: "Activity Tracker",
+    des: "Built a full-featured MERN stack Activity Tracker with role-based access, task management, real-time notifications, and admin controls.📜",
+    img: "/manager_dashboard.png",
+    iconLists: [
+      "/re.svg",
+      "/tail.svg",
+      "/ts.svg",
+      "/nodejs-3.svg",
+      "/mongodb.png",
+    ],
+    link: "https://github.com/yagitgadhok/activity_tracker",
   },
 ];
 
@@ -141,7 +158,7 @@ export const testimonials = [
 export const companies = [
   {
     id: 1,
-    name: "cloudinary",
+    name: "Tata Consultancy Services",
     img: "/cloud.svg",
     nameImg: "/cloudName.svg",
   },
@@ -174,29 +191,29 @@ export const companies = [
 export const workExperience = [
   {
     id: 1,
-    title: "Frontend Engineer Intern",
-    desc: "Assisted in the development of a web-based platform using React.js, enhancing interactivity.",
+    title: "Software Engineer Intern - TCS",
+    desc: "Enhanced emotion analysis accuracy and performance by 20% through ML optimization, while improving collaboration and delivery speed via Git workflows and stakeholder coordination.",
     className: "md:col-span-2",
     thumbnail: "/exp1.svg",
   },
   {
     id: 2,
-    title: "Mobile App Dev - JSM Tech",
-    desc: "Designed and developed mobile app for both iOS & Android platforms using React Native.",
-    className: "md:col-span-2", // change to md:col-span-2
+    title: "Software Engineer Intern - DRDO",
+    desc: "Analyzed geospatial data with Quantum GIS (QGIS) to highlight low-efficiency regions, contributing to a 25% boost in project effectiveness.",
+    className: "md:col-span-2",
     thumbnail: "/exp2.svg",
   },
   {
     id: 3,
-    title: "Freelance App Dev Project",
-    desc: "Led the dev of a mobile app for a client, from initial concept to deployment on app stores.",
-    className: "md:col-span-2", // change to md:col-span-2
+    title: "Software Engineer - Sopra Steria",
+    desc: "Created and maintained a high-performance Angular and Node.js web application, increasing user activity by 40% and reducing load times by 25%.",
+    className: "md:col-span-2",
     thumbnail: "/exp3.svg",
   },
   {
     id: 4,
-    title: "Lead Frontend Developer",
-    desc: "Developed and maintained user-facing features using modern frontend technologies.",
+    title: "Senior Software Engineer - Sopra Steria",
+    desc: "Spearheaded and Created accessible, cross-browser UI components compliant with WCAG standards and documented using Storybook, reducing onboarding time by 40% and development time by 25%.",
     className: "md:col-span-2",
     thumbnail: "/exp4.svg",
   },
@@ -206,13 +223,11 @@ export const socialMedia = [
   {
     id: 1,
     img: "/git.svg",
+    link: "https://github.com/yagitgadhok",
   },
   {
     id: 2,
-    img: "/twit.svg",
-  },
-  {
-    id: 3,
     img: "/link.svg",
+    link: "https://www.linkedin.com/in/yagitgadhok/",
   },
 ];
