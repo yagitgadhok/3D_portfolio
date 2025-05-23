@@ -1,5 +1,9 @@
 "use client";
-import React, { useRef, ReactNode, ElementType } from "react";
+import React, {
+  type ReactNode,
+  type ElementType,
+  type ComponentPropsWithRef,
+} from "react";
 import {
   motion,
   useAnimationFrame,
@@ -9,40 +13,49 @@ import {
 } from "framer-motion";
 import { cn } from "@/lib/utils";
 
-interface ButtonProps {
+// Generic polymorphic prop utility
+type PolymorphicProps<T extends ElementType, Props = {}> = Props &
+  Omit<ComponentPropsWithRef<T>, keyof Props> & {
+    as?: T;
+  };
+
+// Custom props for the Button component
+type ButtonOwnProps = {
   borderRadius?: string;
   children: ReactNode;
-  as?: ElementType;
   containerClassName?: string;
   borderClassName?: string;
   duration?: number;
   className?: string;
-  [key: string]: unknown;
-}
+};
 
-export function Button({
+// Combine generic element props with custom ones
+type ButtonProps<T extends ElementType> = PolymorphicProps<T, ButtonOwnProps>;
+
+export function Button<T extends ElementType = "button">({
+  as,
   borderRadius = "1.75rem",
   children,
-  as: Component = "button",
   containerClassName,
   borderClassName,
   duration,
   className,
-  ...otherProps
-}: ButtonProps): JSX.Element {
+  ...rest
+}: ButtonProps<T>): React.JSX.Element {
+  const Component = as || "button";
+
   return (
     <Component
       className={cn(
         "bg-transparent relative text-xl p-[1px] overflow-hidden md:col-span-2 md:row-span-1",
         containerClassName
       )}
-      style={{
-        borderRadius: borderRadius,
-      }}
-      {...otherProps}
+      style={{ borderRadius }}
+      {...rest}
     >
+      {/* Animated border layer */}
       <div
-        className="absolute inset-0 rounded-[1.75rem]"
+        className="absolute inset-0"
         style={{ borderRadius: `calc(${borderRadius} * 0.96)` }}
       >
         <MovingBorder duration={duration} rx="30%" ry="30%">
@@ -55,14 +68,13 @@ export function Button({
         </MovingBorder>
       </div>
 
+      {/* Content layer */}
       <div
         className={cn(
-          "relative bg-slate-900/[0.] border border-slate-800 backdrop-blur-xl text-white flex items-center justify-center w-full h-full text-sm antialiased",
+          "relative bg-slate-900/[0.8] border border-slate-800 backdrop-blur-xl text-white flex items-center justify-center w-full h-full text-sm antialiased",
           className
         )}
-        style={{
-          borderRadius: `calc(${borderRadius} * 0.96)`,
-        }}
+        style={{ borderRadius: `calc(${borderRadius} * 0.96)` }}
       >
         {children}
       </div>
@@ -84,9 +96,9 @@ export const MovingBorder = ({
   rx,
   ry,
   ...otherProps
-}: MovingBorderProps): JSX.Element => {
-  const pathRef = useRef<SVGRectElement | null>(null);
-  const progress = useMotionValue<number>(0);
+}: MovingBorderProps): React.ReactElement => {
+  const pathRef = React.useRef<SVGRectElement | null>(null);
+  const progress = useMotionValue(0);
 
   useAnimationFrame((time) => {
     const length = pathRef.current?.getTotalLength();

@@ -1,14 +1,16 @@
 "use client";
+import React from "react";
+import type { JSX } from "react";
 import { useEffect, useRef, useState } from "react";
 import { Color, Scene, Fog, PerspectiveCamera, Vector3 } from "three";
 import ThreeGlobe from "three-globe";
-import { useThree, Object3DNode, Canvas, extend } from "@react-three/fiber";
+import { useThree, Canvas, extend } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import countries from "@/data/globe.json";
 
 declare module "@react-three/fiber" {
   interface ThreeElements {
-    threeGlobe: Object3DNode<ThreeGlobe, typeof ThreeGlobe>;
+    threeGlobe: unknown;
   }
 }
 
@@ -61,7 +63,7 @@ interface WorldProps {
 
 let numbersOfRings: number[] = [0];
 
-export function Globe({ globeConfig, data }: WorldProps): JSX.Element {
+export function Globe({ globeConfig, data }: WorldProps): React.JSX.Element {
   const [globeData, setGlobeData] = useState<
     | {
         size: number;
@@ -176,30 +178,33 @@ export function Globe({ globeConfig, data }: WorldProps): JSX.Element {
 
     globeRef.current
       .arcsData(data)
-      .arcStartLat((d: Position) => d.startLat * 1)
-      .arcStartLng((d: Position) => d.startLng * 1)
-      .arcEndLat((d: Position) => d.endLat * 1)
-      .arcEndLng((d: Position) => d.endLng * 1)
-      .arcColor((e: Position) => e.color)
-      .arcAltitude((e: Position) => e.arcAlt * 1)
+      .arcStartLat((d: unknown) => (d as Position).startLat * 1)
+      .arcStartLng((d: unknown) => (d as Position).startLng * 1)
+      .arcEndLat((d: unknown) => (d as Position).endLat * 1)
+      .arcEndLng((d: unknown) => (d as Position).endLng * 1)
+      .arcColor((e: unknown) => (e as Position).color)
+      .arcAltitude((e: unknown) => (e as Position).arcAlt * 1)
       .arcStroke(() => [0.32, 0.28, 0.3][Math.round(Math.random() * 2)])
       .arcDashLength(defaultProps.arcLength)
-      .arcDashInitialGap((e: Position) => e.order * 1)
+      .arcDashInitialGap((e: unknown) => (e as Position).order * 1)
       .arcDashGap(15)
       .arcDashAnimateTime(() => defaultProps.arcTime);
 
     globeRef.current
       .pointsData(data)
-      .pointColor((e: Position) => e.color)
+      .pointColor((e: unknown) => (e as Position).color)
       .pointsMerge(true)
       .pointAltitude(0.0)
       .pointRadius(2);
 
     globeRef.current
       .ringsData([])
-      .ringColor(
-        (e: { color: (t: number) => string }) => (t: number) => e.color(t)
-      )
+      .ringColor((d: unknown) => {
+        const data = d as { color?: (t: number) => string };
+        return typeof data.color === "function"
+          ? data.color
+          : () => defaultProps.polygonColor;
+      })
       .ringMaxRadius(defaultProps.maxRings)
       .ringPropagationSpeed(RING_PROPAGATION_SPEED)
       .ringRepeatPeriod(
