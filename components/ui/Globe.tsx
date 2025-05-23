@@ -231,7 +231,7 @@ export function Globe({ globeConfig, data }: WorldProps): React.JSX.Element {
     return () => {
       clearInterval(interval);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, [globeData, data.length]);
 
   return (

@@ -14,7 +14,10 @@ import {
 import { cn } from "@/lib/utils";
 
 // Generic polymorphic prop utility
-type PolymorphicProps<T extends ElementType, Props = {}> = Props &
+type PolymorphicProps<
+  T extends ElementType = "button",
+  Props = object
+> = Props &
   Omit<ComponentPropsWithRef<T>, keyof Props> & {
     as?: T;
   };
