@@ -12,10 +12,6 @@ export const CanvasRevealEffect = ({
   dotSize,
   showGradient = true,
 }: {
-  /**
-   * 0.1 - slower
-   * 1.0 - faster
-   */
   animationSpeed?: number;
   opacities?: number[];
   colors?: number[][];
@@ -65,7 +61,7 @@ const DotMatrix: React.FC<DotMatrixProps> = ({
   shader = "",
   center = ["x", "y"],
 }) => {
-  const uniforms = React.useMemo(() => {
+  const uniforms = useMemo<Uniforms>(() => {
     let colorsArray = [
       colors[0],
       colors[0],
@@ -175,12 +171,21 @@ const DotMatrix: React.FC<DotMatrixProps> = ({
   );
 };
 
+type UniformValue = number | number[] | number[][];
+type UniformType =
+  | "uniform1f"
+  | "uniform3f"
+  | "uniform1fv"
+  | "uniform3fv"
+  | "uniform2f";
+
 type Uniforms = {
   [key: string]: {
-    value: number[] | number[][] | number;
-    type: string;
+    value: UniformValue;
+    type: UniformType;
   };
 };
+
 const ShaderMaterial = ({
   source,
   uniforms,
@@ -203,42 +208,42 @@ const ShaderMaterial = ({
     }
     lastFrameTime = timestamp;
 
-    const material: any = ref.current.material;
-    const timeLocation = material.uniforms.u_time;
-    timeLocation.value = timestamp;
+    const material = ref.current.material as THREE.ShaderMaterial & {
+      uniforms: { [key: string]: { value: unknown } };
+    };
+    if (material.uniforms.u_time) {
+      material.uniforms.u_time.value = timestamp;
+    }
   });
 
-  const getUniforms = () => {
-    const preparedUniforms: any = {};
+  const getUniforms = (): { [key: string]: { value: unknown } } => {
+    const preparedUniforms: { [key: string]: { value: unknown } } = {};
 
     for (const uniformName in uniforms) {
-      const uniform: any = uniforms[uniformName];
+      const uniform = uniforms[uniformName];
 
       switch (uniform.type) {
         case "uniform1f":
-          preparedUniforms[uniformName] = { value: uniform.value, type: "1f" };
+          preparedUniforms[uniformName] = { value: uniform.value };
           break;
         case "uniform3f":
           preparedUniforms[uniformName] = {
-            value: new THREE.Vector3().fromArray(uniform.value),
-            type: "3f",
+            value: new THREE.Vector3().fromArray(uniform.value as number[]),
           };
           break;
         case "uniform1fv":
-          preparedUniforms[uniformName] = { value: uniform.value, type: "1fv" };
+          preparedUniforms[uniformName] = { value: uniform.value };
           break;
         case "uniform3fv":
           preparedUniforms[uniformName] = {
-            value: uniform.value.map((v: number[]) =>
+            value: (uniform.value as number[][]).map((v) =>
               new THREE.Vector3().fromArray(v)
             ),
-            type: "3fv",
           };
           break;
         case "uniform2f":
           preparedUniforms[uniformName] = {
-            value: new THREE.Vector2().fromArray(uniform.value),
-            type: "2f",
+            value: new THREE.Vector2().fromArray(uniform.value as number[]),
           };
           break;
         default:
@@ -247,14 +252,13 @@ const ShaderMaterial = ({
       }
     }
 
-    preparedUniforms["u_time"] = { value: 0, type: "1f" };
+    preparedUniforms["u_time"] = { value: 0 };
     preparedUniforms["u_resolution"] = {
       value: new THREE.Vector2(size.width * 2, size.height * 2),
-    }; // Initialize u_resolution
+    };
     return preparedUniforms;
   };
 
-  // Shader material
   const material = useMemo(() => {
     const materialObject = new THREE.ShaderMaterial({
       vertexShader: `
@@ -279,10 +283,10 @@ const ShaderMaterial = ({
     });
 
     return materialObject;
-  }, [size.width, size.height, source]);
+  }, [size.width, size.height, source, uniforms]);
 
   return (
-    <mesh ref={ref as any}>
+    <mesh ref={ref}>
       <planeGeometry args={[2, 2]} />
       <primitive object={material} attach="material" />
     </mesh>
@@ -296,13 +300,9 @@ const Shader: React.FC<ShaderProps> = ({ source, uniforms, maxFps = 60 }) => {
     </Canvas>
   );
 };
+
 interface ShaderProps {
   source: string;
-  uniforms: {
-    [key: string]: {
-      value: number[] | number[][] | number;
-      type: string;
-    };
-  };
+  uniforms: Uniforms;
   maxFps?: number;
 }
