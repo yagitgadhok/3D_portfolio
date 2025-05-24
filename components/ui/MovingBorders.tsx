@@ -47,15 +47,17 @@ export function Button<T extends ElementType = "button">({
 }: ButtonProps<T>): React.JSX.Element {
   const Component = as || "button";
 
-  return (
-    <Component
-      className={cn(
+  return React.createElement(
+    Component,
+    {
+      className: cn(
         "bg-transparent relative text-xl p-[1px] overflow-hidden md:col-span-2 md:row-span-1",
         containerClassName
-      )}
-      style={{ borderRadius }}
-      {...rest}
-    >
+      ),
+      style: { borderRadius },
+      ...rest,
+    },
+    <>
       {/* Animated border layer */}
       <div
         className="absolute inset-0"
@@ -81,7 +83,7 @@ export function Button<T extends ElementType = "button">({
       >
         {children}
       </div>
-    </Component>
+    </>
   );
 }
 
