@@ -1,3 +1,4 @@
+"use client";
 import { FaLocationArrow } from "react-icons/fa6";
 import { cn } from "@/lib/utils";
 import MagicButton from "./MagicButton";
